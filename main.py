@@ -13,11 +13,8 @@ def preprocess():
         split=['train', 'test'],
     )
 
-    for image, label in dataset_train_raw.take(1):
-        print(image.shape, label)
-
     # Print out info of the dataset
-    print(dataset_info)
+    # print(dataset_info)
 
     # Get Number of Train and Test examples & Amount of Classes
     train_examples_num = dataset_info.splits['train'].num_examples
@@ -36,6 +33,8 @@ def preprocess():
     labels_of_classes = dataset_info.features['label'].int2str
     print('Labels of Classes: ', labels_of_classes(0), labels_of_classes(1), labels_of_classes(2))
 
+    # Spacing
+    print()
 
     # Plot Some Images of the Dataset for viewing
     plt.figure(figsize=(8, 8))
@@ -55,6 +54,7 @@ if __name__ == '__main__':
     print("Python Version: ", platform.python_version())
     print("Tensorflow Version: ", tf.__version__)
     print("Keras Version: ", tf.keras.__version__)
+    print()
 
     '''
     Numpy Version:  1.18.5
