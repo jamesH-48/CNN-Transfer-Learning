@@ -179,6 +179,13 @@ def model(train_data, test_data, dataset_info):
                   metrics = ['accuracy']
     )
    
+    '''
+        Split Train into Train & Validation
+        Fit Model
+        Train Model
+        Print outputs
+        Run test images as final print out
+    '''
 
 if __name__ == '__main__':
     # Print out main versions of packages used
