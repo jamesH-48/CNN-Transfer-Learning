@@ -59,9 +59,11 @@ def preprocess():
     train_data = augmentation(scaled_train_data)
     
     # Shuffle Data for print
-    train_data = train_data.shuffle(5555)
+    train_data = train_data.shuffle(5135)
     print("Length of Data", len(list(train_data)))
-    print_data(train_data, labels_of_classes, 'white', images_only=True)
+    #print_data(train_data, labels_of_classes, 'white', images_only=True)
+
+    return train_data, scaled_test_data, dataset_info
 
 # Image Augmentation to add more images to dataset
 def augmentation(data):
@@ -144,6 +146,40 @@ def format_image(image, label):
     image = tf.image.resize(image, (300,300))
     return image, label
 
+def model(train_data, test_data, dataset_info):
+    # New Input
+    input_new = Input(shape=(300,300,3), name = 'Image_Input')
+    
+    # VGG16 Base Model
+    base_model_VGG16 = tf.keras.applications.VGG16(
+        include_top = False,
+        weights = None,
+        input_tensor = input_new,
+        pooling = 'avg'
+    )
+    
+    # Grab the final layer to connect more layers after
+    final_layer = base_model_VGG16.layers[-1]
+    
+
+    # Connect Flatten, Dense, and Softmax Output Layers
+    x = Flatten(name='flatten')(final_layer.output)
+    x = Dense(4096, activation ='relu', name = 'FC1')(x)
+    x = Dense(4096, activation ='relu', name = 'FC2')(x)
+    x = Dense(2, activation = 'softmax', name = 'Predictions')(x)
+
+    # Create Model
+    model = Model(inputs=input_new, outputs=x, name="New Model")
+
+    # Print Summary of Model
+    print(model.summary())
+
+    model.compile(optimizer = 'Adam', 
+                  loss = tf.keras.losses.categorical_crossentropy, 
+                  metrics = ['accuracy']
+    )
+   
+
 if __name__ == '__main__':
     # Print out main versions of packages used
     print("Numpy Version: ", np.version.version)
@@ -160,4 +196,8 @@ if __name__ == '__main__':
     '''
 
     # Pre-process data
-    preprocess()
+    train_data, test_data, dataset_info = preprocess()
+
+    # Model and Results
+    # This will include batch manipulation as well
+    model(train_data, test_data, dataset_info)
