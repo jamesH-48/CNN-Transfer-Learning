@@ -6,9 +6,8 @@ import tensorflow_datasets as tfds
 import platform
 
 def preprocess():
-    (dataset_train_raw, dataset_test_raw), dataset_info = tfds.load(
-        name='rock_paper_scissors',
-        data_dir='tmp',
+    (raw_train_data, raw_test_data), dataset_info = tfds.load(
+        name='horses_or_humans',
         with_info=True,
         as_supervised=True,
         split=['train', 'test'],
@@ -32,22 +31,67 @@ def preprocess():
 
     # Print Labels (Classes)
     labels_of_classes = dataset_info.features['label'].int2str
-    print('Labels of Classes: ', labels_of_classes(0), labels_of_classes(1), labels_of_classes(2))
+    print('Labels of Classes: ', labels_of_classes(0), labels_of_classes(1))
 
     # Spacing
     print()
 
     # Plot Some Images of the Dataset for viewing
-    plt.figure(figsize=(8, 8))
+    # Print Data of First Image
+    # Original Scale
+    print_data(raw_train_data, labels_of_classes, 'cyan', images_only=False)
+
+    # Spacing
+    print()
+
+    # Scale data to be between 0-1
+    train_data = raw_train_data.map(format_image)
+    test_data = raw_test_data.map(format_image)
+
+    # Plot Some Images of the Dataset for viewing
+    # Print Data of First Image
+    # Scaled 
+    print_data(train_data, labels_of_classes, 'violet', images_only=False)
+
+# print out images and data for comparisson 
+def print_data(data, labels_of_classes, color_choice, images_only):
+    # Plot Some Images of the Dataset for viewing
+    # Original Scale
+    plt.figure(figsize=(10, 10))
     plt_indx = 0
-    for features in dataset_train_raw.take(8):
+    font = {
+        'color':  color_choice,
+        'weight': 'normal',
+        'size': 16,
+        }
+
+    for features in data.take(9):
         (image, label) = features
         plt_indx += 1
-        plt.subplot(3, 4, plt_indx)
+        plt.subplot(3, 3, plt_indx)
         label = labels_of_classes(label.numpy())
-        plt.title('Label: %s' % label)
+        plt.title(label, fontdict=font)
         plt.imshow(image.numpy())
 
+    if not images_only:
+      # Print out original scale of data
+      for features in data.take(1):
+        (image, label) = features
+        print("Data Values for first image")
+        print("Shape: ", image.numpy().shape)
+        print("Label: ", labels_of_classes(label.numpy()))
+        print("Original Scale: ", image.numpy())
+
+
+# We need to scale the data to allow for use in the model
+def format_image(image, label):
+  # cast as float
+  image = tf.cast(image, tf.float32)
+  # scale values
+  image = image*1/255.0
+  # resize to correct shape
+  image = tf.image.resize(image, (300,300))
+  return image, label
 
 if __name__ == '__main__':
     # Print out main versions of packages used
