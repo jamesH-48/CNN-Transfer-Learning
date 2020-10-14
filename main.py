@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import platform
+from keras.layers import Flatten, Dense, Input
+from keras.models import Model
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 
 def preprocess():
     (raw_train_data, raw_test_data), dataset_info = tfds.load(
@@ -203,12 +206,12 @@ def model(train_data, valid_data, scaled_test_data, dataset_info):
     print("HEY", train_data_size // BSIZE)
     print("HEY", valid_data_size // BSIZE)
    
-    checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='val_accuracy',
+    checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='accuracy',
                                  verbose=1, save_best_only=True, 
                                  save_weights_only=False,
                                  mode='auto', save_freq=1)
     
-    early = EarlyStopping(monitor='val_accuracy', min_delta=0,
+    early = EarlyStopping(monitor='accuracy', min_delta=0,
                           patience=20, verbose=1, mode='auto')
 
     loss0, accuracy0 = model.evaluate(valid_data)
