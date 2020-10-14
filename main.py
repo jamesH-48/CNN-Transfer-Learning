@@ -63,7 +63,27 @@ def preprocess():
     print("Length of Data", len(list(train_data)))
     #print_data(train_data, labels_of_classes, 'white', images_only=True)
 
-    return train_data, scaled_test_data, dataset_info
+    print("before1",train_data)
+
+    # Split Train Dataset into Train & Validation 
+    '''
+
+    !!!
+    !!!
+    !!!
+
+
+    '''
+    split_index = int(5135*.7)
+    valid_data = train_data.range(split_index, 5135)
+    train_data = train_data.range(0, split_index)
+
+    print('train dataset size:', len(list(train_data)), '\n')
+    print('valid dataset size:', len(list(valid_data)), '\n')
+
+    print("before2",train_data)
+
+    return train_data, valid_data, scaled_test_data, dataset_info
 
 # Image Augmentation to add more images to dataset
 def augmentation(data):
@@ -146,17 +166,30 @@ def format_image(image, label):
     image = tf.image.resize(image, (300,300))
     return image, label
 
-def model(train_data, test_data, dataset_info):
+def model(train_data, valid_data, scaled_test_data, dataset_info):
+    # BATCHES
+    BSIZE = 32
+    train_data = train_data.batch(batch_size = BSIZE)
+    # for better performance
+    train_data = train_data.prefetch(buffer_size = tf.data.experimental.AUTOTUNE)
+    valid_data = valid_data.batch(batch_size = BSIZE)
+
+    print(train_data)
+    print(valid_data)
+
     # New Input
     input_new = Input(shape=(300,300,3), name = 'Image_Input')
     
     # VGG16 Base Model
     base_model_VGG16 = tf.keras.applications.VGG16(
         include_top = False,
-        weights = None,
+        weights = 'imagenet',
         input_tensor = input_new,
         pooling = 'avg'
     )
+
+    # Freeze VGG16 Base Model
+    base_model_VGG16.trainable = False
     
     # Grab the final layer to connect more layers after
     final_layer = base_model_VGG16.layers[-1]
@@ -174,11 +207,15 @@ def model(train_data, test_data, dataset_info):
     # Print Summary of Model
     print(model.summary())
 
-    model.compile(optimizer = 'Adam', 
-                  loss = tf.keras.losses.categorical_crossentropy, 
+    model.compile(optimizer = tf.keras.optimizers.Adam(lr=0.0001), 
+                  loss = tf.keras.losses.BinaryCrossentropy(from_logits=True), 
                   metrics = ['accuracy']
     )
+
+    print("len: ", len(model.trainable_variables))
    
+    
+
     '''
         Split Train into Train & Validation
         Fit Model
@@ -203,8 +240,10 @@ if __name__ == '__main__':
     '''
 
     # Pre-process data
-    train_data, test_data, dataset_info = preprocess()
+    train_data, valid_data, scaled_test_data, dataset_info = preprocess()
+
+    print("After",train_data)
 
     # Model and Results
     # This will include batch manipulation as well
-    model(train_data, test_data, dataset_info)
+    # model(train_data, valid_data, scaled_test_data, dataset_info)
