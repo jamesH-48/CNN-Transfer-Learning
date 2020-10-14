@@ -68,8 +68,8 @@ def preprocess():
     valid_data = train_data_full.take(split_index)
     train_data = train_data_full.skip(split_index)
 
-    print('train dataset size:', len(list(train_data)), '\n')
-    print('valid dataset size:', len(list(valid_data)), '\n')
+    #print('train dataset size:', len(list(train_data)), '\n')
+    #print('valid dataset size:', len(list(valid_data)), '\n')
 
     return train_data, valid_data, scaled_test_data, dataset_info
 
@@ -155,6 +155,8 @@ def format_image(image, label):
     return image, label
 
 def model(train_data, valid_data, scaled_test_data, dataset_info):
+    train_data_size = len(list(train_data))
+    valid_data_size = len(list(valid_data))
     # BATCHES
     BSIZE = 32
     train_data = train_data.batch(batch_size = BSIZE)
@@ -162,8 +164,8 @@ def model(train_data, valid_data, scaled_test_data, dataset_info):
     train_data = train_data.prefetch(buffer_size = tf.data.experimental.AUTOTUNE)
     valid_data = valid_data.batch(batch_size = BSIZE)
 
-    print(train_data)
-    print(valid_data)
+    #print(train_data)
+    #print(valid_data)
 
     # New Input
     input_new = Input(shape=(300,300,3), name = 'Image_Input')
@@ -184,10 +186,8 @@ def model(train_data, valid_data, scaled_test_data, dataset_info):
     
 
     # Connect Flatten, Dense, and Softmax Output Layers
-    x = Flatten(name='flatten')(final_layer.output)
-    x = Dense(4096, activation ='relu', name = 'FC1')(x)
-    x = Dense(4096, activation ='relu', name = 'FC2')(x)
-    x = Dense(2, activation = 'softmax', name = 'Predictions')(x)
+    #x = Dense(4096, activation ='relu', name = 'FC1')(final_layer.output)
+    x = Dense(2, activation = 'softmax', name = 'Predictions')(final_layer.output)
 
     # Create Model
     model = Model(inputs=input_new, outputs=x, name="NewModel")
@@ -200,22 +200,28 @@ def model(train_data, valid_data, scaled_test_data, dataset_info):
                   metrics = ['accuracy']
     )
 
-    print("len: ", len(model.trainable_variables))
+    print("HEY", train_data_size // BSIZE)
+    print("HEY", valid_data_size // BSIZE)
    
-    checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='val_acc',
+    checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='val_accuracy',
                                  verbose=1, save_best_only=True, 
                                  save_weights_only=False,
-                                 mode='auto', period=1)
+                                 mode='auto', save_freq=1)
     
-    early = EarlyStopping(monitor='val_acc', min_delta=0,
+    early = EarlyStopping(monitor='val_accuracy', min_delta=0,
                           patience=20, verbose=1, mode='auto')
+
+    loss0, accuracy0 = model.evaluate(valid_data)
+    print("initial loss: {:.2f}".format(loss0))
+    print("initial accuracy: {:.2f}".format(accuracy0))
+
 
     history = model.fit(
         x = train_data,
         validation_data = valid_data,
-        epochs = 10,
-        steps_per_epoch = len(list(train_data))//BSIZE,
-        validation_steps = len(list(valid_data))//BSIZE,
+        epochs = 5,
+        steps_per_epoch = train_data_size // BSIZE,
+        validation_steps = valid_data_size // BSIZE,
         verbose = 1,
         callbacks=[checkpoint,early]
     )
