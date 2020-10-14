@@ -59,29 +59,17 @@ def preprocess():
     train_data = augmentation(scaled_train_data)
     
     # Shuffle Data for print
-    train_data = train_data.shuffle(5135)
+    train_data_full = train_data.shuffle(5135)
     print("Length of Data", len(list(train_data)))
     #print_data(train_data, labels_of_classes, 'white', images_only=True)
 
-    print("before1",train_data)
-
     # Split Train Dataset into Train & Validation 
-    '''
-
-    !!!
-    !!!
-    !!!
-
-
-    '''
-    split_index = int(5135*.7)
-    valid_data = train_data.range(split_index, 5135)
-    train_data = train_data.range(0, split_index)
+    split_index = int(5135*.3)
+    valid_data = train_data_full.take(split_index)
+    train_data = train_data_full.skip(split_index)
 
     print('train dataset size:', len(list(train_data)), '\n')
     print('valid dataset size:', len(list(valid_data)), '\n')
-
-    print("before2",train_data)
 
     return train_data, valid_data, scaled_test_data, dataset_info
 
@@ -202,27 +190,35 @@ def model(train_data, valid_data, scaled_test_data, dataset_info):
     x = Dense(2, activation = 'softmax', name = 'Predictions')(x)
 
     # Create Model
-    model = Model(inputs=input_new, outputs=x, name="New Model")
+    model = Model(inputs=input_new, outputs=x, name="NewModel")
 
     # Print Summary of Model
     print(model.summary())
 
     model.compile(optimizer = tf.keras.optimizers.Adam(lr=0.0001), 
-                  loss = tf.keras.losses.BinaryCrossentropy(from_logits=True), 
+                  loss = tf.keras.losses.sparse_categorical_crossentropy, 
                   metrics = ['accuracy']
     )
 
     print("len: ", len(model.trainable_variables))
    
+    checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='val_acc',
+                                 verbose=1, save_best_only=True, 
+                                 save_weights_only=False,
+                                 mode='auto', period=1)
     
+    early = EarlyStopping(monitor='val_acc', min_delta=0,
+                          patience=20, verbose=1, mode='auto')
 
-    '''
-        Split Train into Train & Validation
-        Fit Model
-        Train Model
-        Print outputs
-        Run test images as final print out
-    '''
+    history = model.fit(
+        x = train_data,
+        validation_data = valid_data,
+        epochs = 10,
+        steps_per_epoch = len(list(train_data))//BSIZE,
+        validation_steps = len(list(valid_data))//BSIZE,
+        verbose = 1,
+        callbacks=[checkpoint,early]
+    )
 
 if __name__ == '__main__':
     # Print out main versions of packages used
@@ -242,8 +238,6 @@ if __name__ == '__main__':
     # Pre-process data
     train_data, valid_data, scaled_test_data, dataset_info = preprocess()
 
-    print("After",train_data)
-
     # Model and Results
     # This will include batch manipulation as well
-    # model(train_data, valid_data, scaled_test_data, dataset_info)
+    model(train_data, valid_data, scaled_test_data, dataset_info)
