@@ -55,7 +55,7 @@ def preprocess():
     # print('train dataset size:', len(list(train_dataset)), '\n')
 
     plt.show()
-    return train_dataset, validation_dataset, test_dataset
+    return train_dataset, validation_dataset, test_dataset, labels_of_classes
 
 # Image Augmentation to add more images to dataset
 def augmentation(data, labels_of_classes):
@@ -125,7 +125,7 @@ def print_image_data(data, labels_of_classes):
         print("Label of Image: ", labels_of_classes[label[0]])
         print("Original Scale: ", image[0].numpy())
 
-def model(train_dataset, validation_dataset, test_dataset):
+def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
     # Scale values for Base Model
     preprocess_input = tf.keras.applications.vgg16.preprocess_input
     # VGG16 Base Model
@@ -189,16 +189,39 @@ def model(train_dataset, validation_dataset, test_dataset):
     # Use Test Dataset for Final Predictions
     test_image_batch, test_label_batch = test_dataset.as_numpy_iterator().next()
     predictions = model.predict_on_batch(test_image_batch).flatten()
-    labels_of_classes = train_dataset.class_names
+    # Convert to numpy array
+    predictions = np.array(predictions)
 
-    print("Predictions for Test Dataset:\n", predictions.numpy())
+    # We need to convert the predictions to be alligned with the test_label_batch
+    # Predictions at this point will be in the format [horse, human]
+    # Which ever value is higher is the chosen class (highest probability)
+    # Basically the predictions array is 64 long and we need to get it to be 32 long
+    # [x1, y1, ..., x64, y64] -> [1, 0, ...]
+    # if x1 > y1 then 0; if x1 < y1 then 1
+    # Takes in even array
+    # Outputs an even array half the size
+    # Compares two numbers at a time within input
+    # If the first number is larger than the second in the input then the output array gets a 0
+    # representing that couple of the input. It gets a 1 in the opposite case.
+    i = 0
+    true_predictions = np.ones((32,), dtype=int)
+    for x in range(0, 64):
+        if x % 2 == 0:
+            print("Prediction ", i, " ", predictions[x], " ", predictions[x+1])
+            if predictions[x] > predictions[x + 1]:
+                true_predictions[i] = 0
+            else:
+                true_predictions[i] = 1
+            i += 1
+
+    print("Predictions for Test Dataset:\n", true_predictions)
     print("Labels:\n", test_label_batch)
 
-    plt.figure(figsize=(40,40))
+    plt.figure(figsize=(30, 30))
     for i in range(32):
-        ax = plt.subplot(3, 3, i+1)
+        ax = plt.subplot(7, 7, i+1)
         plt.imshow(test_image_batch[i].astype("uint8"))
-        plt.title(labels_of_classes[predictions[i]])
+        plt.title(labels_of_classes[true_predictions[i]])
         plt.axis("off")
     plt.show()
 
@@ -211,7 +234,7 @@ if __name__ == '__main__':
     print()
 
     # Call Pre-Process Function
-    train_dataset, validation_dataset, test_dataset = preprocess()
+    train_dataset, validation_dataset, test_dataset, labels_of_classes = preprocess()
 
     # Call Model Function
-    model(train_dataset, validation_dataset, test_dataset)
+    model(train_dataset, validation_dataset, test_dataset, labels_of_classes)
