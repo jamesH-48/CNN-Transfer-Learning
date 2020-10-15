@@ -161,14 +161,56 @@ def model(train_dataset, validation_dataset, test_dataset):
 
     print(model.summary())
 
-    initial_epochs = 10
-    loss0, accuracy0 = model.evaluate(validation_dataset)
-    print("initial loss: {:.2f}".format(loss0))
-    print("initial accuracy: {:.2f}".format(accuracy0))
+    initial_epochs = 4
+    #loss0, accuracy0 = model.evaluate(validation_dataset)
+    #print("initial loss: {:.2f}".format(loss0))
+    #print("initial accuracy: {:.2f}".format(accuracy0))
 
     history = model.fit(train_dataset,
                         epochs=initial_epochs,
                         validation_data=validation_dataset)
+
+    # data results for plotting
+    accuracy = history.history['accuracy']
+    val_accuracy = history.history['val_accuracy']
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+
+    # Training & Validation Accuracy
+    plt.figure(figsize=(10,10))
+    plt.subplot(2, 1, 1)
+    plt.plot(accuracy, label='Training Accuracy', color='green')
+    plt.plot(val_accuracy, label='Validation Accuracy', color='cyan')
+    plt.legend(loc='lower right')
+    plt.ylabel('Accuracy')
+    plt.ylim([min(plt.ylim()), 1])
+    plt.title('Training and Validation Accuracy')
+    # Training & Validation Loss
+    plt.subplot(2, 1, 2)
+    plt.plot(loss, label='Training Loss', color='green')
+    plt.plot(val_loss, label='Validation Loss', color='cyan')
+    plt.legend(loc='upper right')
+    plt.ylabel('Cross Entropy')
+    plt.ylim([min(plt.ylim()), 1])
+    plt.title('Training and Validation Loss')
+    plt.xlabel('Epoch')
+    plt.show()
+
+    # Use Test Dataset for Final Predictions
+    test_image_batch, test_label_batch = test_dataset.as_numpy_iterator().next()
+    predictions = model.predict_on_batch(test_image_batch).flatten()
+    labels_of_classes = train_dataset.class_names
+
+    print("Predictions for Test Dataset:\n", predictions.numpy())
+    print("Labels:\n", test_label_batch)
+
+    plt.figure(figsize=(40,40))
+    for i in range(32):
+        ax = plt.subplot(3, 3, i+1)
+        plt.imshow(test_image_batch[i].astype("uint8"))
+        plt.title(labels_of_classes[predictions[i]])
+        plt.axis("off")
+    plt.show()
 
 if __name__ == '__main__':
     # Print out main versions of packages used
