@@ -125,16 +125,6 @@ def print_image_data(data, labels_of_classes):
         print("Label of Image: ", labels_of_classes[label[0]])
         print("Original Scale: ", image[0].numpy())
 
-# We need to scale the data to allow for use in the model
-def format_image(image, label):
-    # cast as float
-    image = tf.cast(image, tf.float32)
-    # scale values
-    image = image*1/255.0
-    # resize to correct shape
-    image = tf.image.resize(image, (300,300))
-    return image, label
-
 def model(train_dataset, validation_dataset, test_dataset):
     # Scale values for Base Model
     preprocess_input = tf.keras.applications.vgg16.preprocess_input
