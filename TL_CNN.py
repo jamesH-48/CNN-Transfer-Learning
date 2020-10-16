@@ -1,16 +1,24 @@
+# Run this in Google Colab
+!git clone "https://github.com/jamesH-48/horses_or_humans_test.git"
+
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import platform
+import os
 from keras.layers import Flatten, Dense, Input
 from keras.models import Model
-from keras.callbacks import ModelCheckpoint, EarlyStopping
 
 def preprocess():
-    train_dir = 'C://Users/Atlas/PycharmProjects/A3_CS4372/thisone/horse-or-human'
-    validation_dir = 'C://Users/Atlas/PycharmProjects/A3_CS4372/thisone/validation-horse-or-human'
-
+    print(os.getcwd())
+    PATH = os.getcwd() + "/horses_or_humans_test" + "/thisone"
+    print(PATH)
+    train_dir = PATH + "/horse-or-human"
+    validation_dir = PATH + "/validation-horse-or-human"
+    print(train_dir)
+    print(validation_dir)
+    
     BATCH_SIZE = 32
     IMG_SIZE = (300, 300)
 
