@@ -159,15 +159,15 @@ def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
 
     print(model.summary())
 
-    initial_epochs = 5
+    initial_epochs = 1
     #loss0, accuracy0 = model.evaluate(validation_dataset)
     #print("initial loss: {:.2f}".format(loss0))
     #print("initial accuracy: {:.2f}".format(accuracy0))
 
     history = model.fit(train_dataset,
                         epochs=initial_epochs,
-                        steps_per_epoch = 5,
-                        validation_steps = 5,
+                        steps_per_epoch = 1,
+                        validation_steps = 1,
                         validation_data=validation_dataset)
 
     # data results for plotting
@@ -224,6 +224,7 @@ def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
 
     print("Predictions for Test Dataset:\n", true_predictions)
     print("Labels:\n", test_label_batch)
+    array_correct_check(true_predictions, test_label_batch)
 
     font = {
     'color':  'black',
@@ -240,6 +241,13 @@ def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
         plt.title(label=title, fontdict=font)
         plt.axis("off")
     plt.show()
+
+def array_correct_check(arr1, arr2):
+   num_correct = 0
+   for i in range(0, 32):
+      if arr1[i] == arr2[i]:
+         num_correct+=1
+   print("Percent Correct: ", num_correct/32 * 100, "%")
 
 if __name__ == '__main__':
     # Print out main versions of packages used
