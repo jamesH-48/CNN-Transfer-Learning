@@ -1,3 +1,5 @@
+# James Hooper ~ NETID: jah171230
+# Hritik Panchasara ~ NETID: hhp160130
 # Run this in Google Colab
 !git clone "https://github.com/jamesH-48/horses_or_humans_test.git"
 
