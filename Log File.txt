@@ -1,0 +1,513 @@
+FULL PRINT OUT FOR FIRST EXAMPLE
+THE REST WILL HAVE PRINT OUTS AS NEEDED TO SPECIFY CHANGES IN THE MODEL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Numpy Version:  1.18.5
+Python Version:  3.6.9
+Tensorflow Version:  2.3.0
+Keras Version:  2.4.0
+
+Found 1027 files belonging to 2 classes.
+
+train dataset size: 33 
+
+Found 256 files belonging to 2 classes.
+Labels of Classes:  ['horses', 'humans']
+Original Image Data: 
+Shape of Image:  (300, 300, 3)
+Label of Image:  horses
+Original Scale:  [[[167. 197. 245.]
+  [166. 197. 244.]
+  [166. 196. 244.]
+  ...
+  [145. 195. 254.]
+  [145. 195. 254.]
+  [145. 195. 254.]]
+
+ [[158. 195. 248.]
+  [158. 195. 248.]
+  [158. 196. 248.]
+  ...
+  [145. 196. 254.]
+  [145. 196. 254.]
+  [145. 196. 254.]]
+
+ [[155. 195. 249.]
+  [156. 196. 249.]
+  [156. 195. 249.]
+  ...
+  [146. 196. 254.]
+  [145. 196. 255.]
+  [145. 197. 254.]]
+
+ ...
+
+ [[193. 163. 133.]
+  [194. 163. 133.]
+  [193. 162. 131.]
+  ...
+  [204. 172. 141.]
+  [201. 169. 138.]
+  [198. 167. 137.]]
+
+ [[189. 159. 129.]
+  [190. 159. 129.]
+  [191. 160. 129.]
+  ...
+  [215. 183. 151.]
+  [208. 175. 142.]
+  [202. 170. 139.]]
+
+ [[189. 158. 129.]
+  [190. 159. 129.]
+  [190. 159. 130.]
+  ...
+  [217. 182. 148.]
+  [212. 178. 143.]
+  [209. 176. 142.]]]
+
+Number of validation batches:  tf.Tensor(7, shape=(), dtype=int64)
+Number of test batches:  tf.Tensor(1, shape=(), dtype=int64)
+Model: "vgg16"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_1 (InputLayer)         [(None, None, None, 3)]   0         
+_________________________________________________________________
+block1_conv1 (Conv2D)        (None, None, None, 64)    1792      
+_________________________________________________________________
+block1_conv2 (Conv2D)        (None, None, None, 64)    36928     
+_________________________________________________________________
+block1_pool (MaxPooling2D)   (None, None, None, 64)    0         
+_________________________________________________________________
+block2_conv1 (Conv2D)        (None, None, None, 128)   73856     
+_________________________________________________________________
+block2_conv2 (Conv2D)        (None, None, None, 128)   147584    
+_________________________________________________________________
+block2_pool (MaxPooling2D)   (None, None, None, 128)   0         
+_________________________________________________________________
+block3_conv1 (Conv2D)        (None, None, None, 256)   295168    
+_________________________________________________________________
+block3_conv2 (Conv2D)        (None, None, None, 256)   590080    
+_________________________________________________________________
+block3_conv3 (Conv2D)        (None, None, None, 256)   590080    
+_________________________________________________________________
+block3_pool (MaxPooling2D)   (None, None, None, 256)   0         
+_________________________________________________________________
+block4_conv1 (Conv2D)        (None, None, None, 512)   1180160   
+_________________________________________________________________
+block4_conv2 (Conv2D)        (None, None, None, 512)   2359808   
+_________________________________________________________________
+block4_conv3 (Conv2D)        (None, None, None, 512)   2359808   
+_________________________________________________________________
+block4_pool (MaxPooling2D)   (None, None, None, 512)   0         
+_________________________________________________________________
+block5_conv1 (Conv2D)        (None, None, None, 512)   2359808   
+_________________________________________________________________
+block5_conv2 (Conv2D)        (None, None, None, 512)   2359808   
+_________________________________________________________________
+block5_conv3 (Conv2D)        (None, None, None, 512)   2359808   
+_________________________________________________________________
+block5_pool (MaxPooling2D)   (None, None, None, 512)   0         
+_________________________________________________________________
+global_average_pooling2d (Gl (None, 512)               0         
+=================================================================
+Total params: 14,714,688
+Trainable params: 14,714,688
+Non-trainable params: 0
+_________________________________________________________________
+None
+Model: "model"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_2 (InputLayer)         [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf.__operators__.getitem (Sl (None, 300, 300, 3)       0         
+_________________________________________________________________
+tf.nn.bias_add (TFOpLambda)  (None, 300, 300, 3)       0         
+_________________________________________________________________
+vgg16 (Functional)           (None, 512)               14714688  
+_________________________________________________________________
+dropout (Dropout)            (None, 512)               0         
+_________________________________________________________________
+Predictions (Dense)          (None, 2)                 1026      
+=================================================================
+Total params: 14,715,714
+Trainable params: 1,026
+Non-trainable params: 14,714,688
+_________________________________________________________________
+None
+
+epochs = 4
+steps per epoch = default
+validation steps = default
+
+Epoch 1/4
+99/99 [==============================] - 866s 9s/step - loss: 1.8831 - accuracy: 0.5424 - val_loss: 0.5911 - val_accuracy: 0.7991
+Epoch 2/4
+99/99 [==============================] - 864s 9s/step - loss: 0.8408 - accuracy: 0.7268 - val_loss: 0.2587 - val_accuracy: 0.8973
+Epoch 3/4
+99/99 [==============================] - 865s 9s/step - loss: 0.4398 - accuracy: 0.8428 - val_loss: 0.2147 - val_accuracy: 0.9062
+Epoch 4/4
+99/99 [==============================] - 864s 9s/step - loss: 0.2704 - accuracy: 0.9028 - val_loss: 0.1252 - val_accuracy: 0.9420
+Prediction  0   0.0006404589   0.99935955
+Prediction  1   0.001973067   0.9980269
+Prediction  2   0.023409585   0.9765904
+Prediction  3   0.0036173293   0.9963826
+Prediction  4   0.00016902383   0.99983096
+Prediction  5   0.97724116   0.022758864
+Prediction  6   0.00013546033   0.9998646
+Prediction  7   6.938818e-05   0.9999306
+Prediction  8   0.00013976128   0.99986017
+Prediction  9   0.99981314   0.00018693846
+Prediction  10   0.74224186   0.25775817
+Prediction  11   0.8785163   0.121483624
+Prediction  12   0.97988325   0.020116724
+Prediction  13   0.2506528   0.7493472
+Prediction  14   0.0016161244   0.9983839
+Prediction  15   0.73601764   0.26398233
+Prediction  16   0.9997756   0.00022440225
+Prediction  17   0.01594086   0.9840591
+Prediction  18   5.1553598e-05   0.9999485
+Prediction  19   0.9214641   0.07853599
+Prediction  20   0.9959507   0.004049335
+Prediction  21   0.9986638   0.0013362188
+Prediction  22   0.005018197   0.9949818
+Prediction  23   0.99999225   7.7978275e-06
+Prediction  24   0.028002879   0.9719971
+Prediction  25   0.0024093646   0.99759066
+Prediction  26   0.00026922082   0.99973077
+Prediction  27   5.2876185e-05   0.9999471
+Prediction  28   0.9596004   0.04039964
+Prediction  29   0.012120444   0.9878796
+Prediction  30   0.0001572829   0.99984264
+Prediction  31   0.0005300839   0.99946994
+Predictions for Test Dataset:
+ [1 1 1 1 1 0 1 1 1 0 0 0 0 1 1 0 0 1 1 0 0 0 1 0 1 1 1 1 0 1 1 1]
+Labels:
+ [1 1 1 1 1 0 1 1 1 0 0 0 0 0 1 0 0 1 1 0 0 0 1 0 1 1 1 1 0 1 1 1]
+Percent Correct:  96.875 %
+Prediction 13 was wrong and wasn't as sure about it compared to the others.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 3
+steps per epoch = 10
+validation steps = 5
+w/out dense and second dropout
+
+Epoch 1/3
+10/10 [==============================] - 397s 40s/step - loss: 3.5168 - accuracy: 0.4313 - val_loss: 2.9762 - val_accuracy: 0.5562
+Epoch 2/3
+10/10 [==============================] - 395s 40s/step - loss: 2.6902 - accuracy: 0.4500 - val_loss: 3.0985 - val_accuracy: 0.4750
+Epoch 3/3
+10/10 [==============================] - 396s 40s/step - loss: 2.5316 - accuracy: 0.4375 - val_loss: 2.9765 - val_accuracy: 0.4500
+
+Predictions for Test Dataset:
+ [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+Labels:
+ [1 1 0 1 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 1 1 1 0 1 0 1 1 1 1 1 0 0]
+Percent Correct:  53.125 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 10
+steps per epoch = 5
+validation steps = 2
+w/out dense and second dropout
+
+Epoch 1/10
+5/5 [==============================] - 174s 35s/step - loss: 2.9689 - accuracy: 0.5938 - val_loss: 1.2399 - val_accuracy: 0.6406
+Epoch 2/10
+5/5 [==============================] - 173s 35s/step - loss: 2.4236 - accuracy: 0.5875 - val_loss: 0.8755 - val_accuracy: 0.6875
+Epoch 3/10
+5/5 [==============================] - 173s 35s/step - loss: 1.8792 - accuracy: 0.6250 - val_loss: 0.6993 - val_accuracy: 0.7344
+Epoch 4/10
+5/5 [==============================] - 173s 35s/step - loss: 2.1136 - accuracy: 0.5875 - val_loss: 0.5661 - val_accuracy: 0.7812
+Epoch 5/10
+5/5 [==============================] - 171s 34s/step - loss: 2.0797 - accuracy: 0.6062 - val_loss: 0.5372 - val_accuracy: 0.7344
+Epoch 6/10
+5/5 [==============================] - 169s 34s/step - loss: 1.8209 - accuracy: 0.5562 - val_loss: 0.5421 - val_accuracy: 0.7812
+Epoch 7/10
+5/5 [==============================] - 149s 30s/step - loss: 1.5471 - accuracy: 0.6031 - val_loss: 0.5416 - val_accuracy: 0.7656
+Epoch 8/10
+5/5 [==============================] - 172s 34s/step - loss: 1.3322 - accuracy: 0.5500 - val_loss: 0.1949 - val_accuracy: 0.9062
+Epoch 9/10
+5/5 [==============================] - 170s 34s/step - loss: 1.3493 - accuracy: 0.5813 - val_loss: 0.3962 - val_accuracy: 0.7969
+Epoch 10/10
+5/5 [==============================] - 170s 34s/step - loss: 1.7840 - accuracy: 0.5312 - val_loss: 0.5177 - val_accuracy: 0.7812
+
+Predictions for Test Dataset:
+ [0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 1 1 1 0 0 0 1 0 0 1 1 0 0 1 1 1]
+Labels:
+ [0 0 1 1 0 0 0 1 1 1 0 1 1 0 0 0 1 1 1 0 0 0 1 1 0 1 0 0 1 1 1 1]
+Percent Correct:  78.125 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 5
+steps per epoch = 5
+validation steps = 5
+w/out dense and second dropout
+
+Epoch 1/5
+5/5 [==============================] - 260s 52s/step - loss: 4.0727 - accuracy: 0.4688 - val_loss: 2.2878 - val_accuracy: 0.4375
+Epoch 2/5
+5/5 [==============================] - 259s 52s/step - loss: 3.5856 - accuracy: 0.5000 - val_loss: 1.9655 - val_accuracy: 0.4250
+Epoch 3/5
+5/5 [==============================] - 259s 52s/step - loss: 2.7311 - accuracy: 0.5813 - val_loss: 1.9896 - val_accuracy: 0.3750
+Epoch 4/5
+5/5 [==============================] - 261s 52s/step - loss: 3.2945 - accuracy: 0.4313 - val_loss: 1.6408 - val_accuracy: 0.3250
+Epoch 5/5
+5/5 [==============================] - 257s 51s/step - loss: 2.3547 - accuracy: 0.5250 - val_loss: 1.4076 - val_accuracy: 0.3938
+
+Predictions for Test Dataset:
+ [0 0 1 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 0 0 1 0 0 1 0 0 0]
+Labels:
+ [1 1 1 0 0 0 1 1 1 1 0 0 0 1 0 1 0 1 0 1 1 0 1 0 1 1 1 1 0 1 1 1]
+Percent Correct:  28.125 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 1
+steps per epoch = 1
+validation steps: 1
+w/out dense and second dropout
+
+1/1 [==============================] - 32s 32s/step - loss: 2.3514 - accuracy: 0.3750 - val_loss: 3.4611 - val_accuracy: 0.3750
+
+Predictions for Test Dataset:
+ [1 1 1 0 1 1 1 0 1 1 0 1 1 0 1 1 1 1 1 1 1 1 0 1 0 1 0 1 1 1 1 1]
+Labels:
+ [0 0 1 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 1 0 1 1 1 1 0 0 1 1 0 1 1 0]
+Percent Correct:  56.25 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 4
+steps per epoch = 8
+validation steps = 7
+w/out dense and second dropout
+
+    inputs = tf.keras.Input(shape=(300,300,3))
+    x = preprocess_input(inputs)
+    x = base_model_VGG16(x, training=False)
+    x = tf.keras.layers.Dropout(0.2)(x)
+    #x = Dense(4096, activation ='relu', name = 'FC1')(x)
+    #x = tf.keras.layers.Dropout(0.2)(x)
+    x = tf.keras.layers.Dense(2, activation='softmax', name='Predictions')(x)
+
+Epoch 1/4
+8/8 [==============================] - 398s 50s/step - loss: 2.3450 - accuracy: 0.4141 - val_loss: 1.1193 - val_accuracy: 0.4955
+Epoch 2/4
+8/8 [==============================] - 403s 50s/step - loss: 2.2647 - accuracy: 0.4648 - val_loss: 1.0487 - val_accuracy: 0.5089
+Epoch 3/4
+8/8 [==============================] - 401s 50s/step - loss: 1.9739 - accuracy: 0.4570 - val_loss: 0.9070 - val_accuracy: 0.5759
+Epoch 4/4
+8/8 [==============================] - 397s 50s/step - loss: 1.9757 - accuracy: 0.4688 - val_loss: 0.9141 - val_accuracy: 0.5714
+
+Predictions for Test Dataset:
+ [0 1 0 0 0 0 0 1 1 0 0 0 1 1 1 0 1 1 1 1 0 1 1 1 1 1 0 1 0 1 0 0]
+Labels:
+ [0 1 0 0 0 0 1 1 0 1 1 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1 1 1 1 1 1 1]
+Percent Correct:  53.125 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Model: "functional_5"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_6 (InputLayer)         [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf_op_layer_strided_slice_2  [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf_op_layer_BiasAdd_2 (Tenso [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+vgg16 (Functional)           (None, 512)               14714688  
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+FC1 (Dense)                  (None, 4096)              2101248   
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+Predictions (Dense)          (None, 2)                 8194      
+=================================================================
+Total params: 16,824,130
+Trainable params: 2,109,442
+Non-trainable params: 14,714,688
+
+epochs = 4
+steps per epoch = 8
+validation steps = 7
+
+    inputs = tf.keras.Input(shape=(300,300,3))
+    x = preprocess_input(inputs)
+    x = base_model_VGG16(x, training=False)
+    x = tf.keras.layers.Dropout(0.2)(x)
+    x = Dense(4096, activation ='relu', name = 'FC1')(x)
+    x = tf.keras.layers.Dropout(0.2)(x)
+    x = tf.keras.layers.Dense(2, activation='softmax', name='Predictions')(x)
+
+Epoch 1/4
+8/8 [==============================] - 397s 50s/step - loss: 0.3553 - accuracy: 0.8750 - val_loss: 0.0521 - val_accuracy: 0.9955
+Epoch 2/4
+8/8 [==============================] - 401s 50s/step - loss: 0.0199 - accuracy: 0.9922 - val_loss: 0.0235 - val_accuracy: 0.9955
+Epoch 3/4
+8/8 [==============================] - 400s 50s/step - loss: 0.0035 - accuracy: 1.0000 - val_loss: 0.0147 - val_accuracy: 1.0000
+Epoch 4/4
+8/8 [==============================] - 396s 49s/step - loss: 0.0026 - accuracy: 1.0000 - val_loss: 0.0093 - val_accuracy: 1.0000
+
+Prediction  0   0.0048591164   0.9951409
+Prediction  1   0.029711256   0.97028875
+Prediction  2   0.002500701   0.9974993
+Prediction  3   0.99965525   0.0003447523
+Prediction  4   0.99999726   2.7762287e-06
+Prediction  5   1.0   1.6306474e-12
+Prediction  6   0.014945514   0.9850545
+Prediction  7   0.0024700817   0.9975299
+Prediction  8   0.003939209   0.9960608
+Prediction  9   1.0   1.5518793e-11
+Prediction  10   0.99999905   1.0103028e-06
+Prediction  11   0.007779476   0.99222046
+Prediction  12   1.0   3.532495e-16
+Prediction  13   0.013256529   0.98674345
+Prediction  14   0.015739975   0.98426
+Prediction  15   1.0   2.2785677e-12
+Prediction  16   0.0037829229   0.9962171
+Prediction  17   0.0015228769   0.99847716
+Prediction  18   1.0   1.7232107e-08
+Prediction  19   0.010636321   0.9893637
+Prediction  20   0.002325197   0.99767476
+Prediction  21   1.0   8.262565e-10
+Prediction  22   0.03573277   0.9642672
+Prediction  23   0.0025446173   0.9974554
+Prediction  24   1.0   6.3280964e-11
+Prediction  25   1.0   1.729644e-13
+Prediction  26   0.006355565   0.9936445
+Prediction  27   0.0021700521   0.99783
+Prediction  28   1.0   1.2412626e-08
+Prediction  29   0.9999367   6.327872e-05
+Prediction  30   1.0   7.471545e-13
+Prediction  31   0.012729587   0.9872705
+
+Predictions for Test Dataset:
+ [1 1 1 0 0 0 1 1 1 0 0 1 0 1 1 0 1 1 0 1 1 0 1 1 0 0 1 1 0 0 0 1]
+Labels:
+ [1 1 1 0 0 0 1 1 1 0 0 1 0 1 1 0 1 1 0 1 1 0 1 1 0 0 1 1 0 0 0 1]
+Percent Correct:  100.0 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Model: "functional_5"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_6 (InputLayer)         [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf_op_layer_strided_slice_2  [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf_op_layer_BiasAdd_2 (Tenso [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+vgg16 (Functional)           (None, 512)               14714688  
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+FC1 (Dense)                  (None, 4096)              2101248   
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+Predictions (Dense)          (None, 2)                 8194      
+=================================================================
+Total params: 16,824,130
+Trainable params: 2,109,442
+Non-trainable params: 14,714,688
+
+epochs = 2
+steps per epoch = default
+validation steps = default
+with 'imagenet'
+
+   base_model_VGG16 = tf.keras.applications.VGG16(
+        include_top=False,
+        weights='imagenet,
+        pooling='avg'
+    )
+
+Epoch 1/2
+99/99 [==============================] - 2917s 29s/step - loss: 0.0331 - accuracy: 0.9886 - val_loss: 0.0062 - val_accuracy: 0.9955
+Epoch 2/2
+99/99 [==============================] - 2904s 29s/step - loss: 0.0030 - accuracy: 0.9984 - val_loss: 0.0029 - val_accuracy: 1.0000
+
+Prediction  0   1.0   5.158381e-12
+Prediction  1   0.0018456726   0.99815434
+Prediction  2   1.0   1.8049442e-09
+Prediction  3   1.0   4.049564e-15
+Prediction  4   0.0012609704   0.99873906
+Prediction  5   0.00014084211   0.9998591
+Prediction  6   1.0   3.630058e-13
+Prediction  7   1.0   2.2469846e-08
+Prediction  8   1.0   2.3722962e-13
+Prediction  9   1.0   4.661193e-17
+Prediction  10   0.0003400753   0.9996599
+Prediction  11   0.00010374633   0.9998963
+Prediction  12   1.0   2.667331e-13
+Prediction  13   0.00477139   0.99522865
+Prediction  14   1.0   6.8666526e-17
+Prediction  15   0.0007170547   0.999283
+Prediction  16   1.0   3.7483775e-12
+Prediction  17   1.0   6.01465e-13
+Prediction  18   0.9999999   1.4221682e-07
+Prediction  19   0.9995425   0.00045758
+Prediction  20   1.0   9.552293e-10
+Prediction  21   0.004014814   0.99598527
+Prediction  22   0.00083101966   0.999169
+Prediction  23   0.00021018709   0.9997898
+Prediction  24   0.00062324427   0.99937683
+Prediction  25   0.00045305485   0.99954695
+Prediction  26   0.000821562   0.99917847
+Prediction  27   0.0002337867   0.9997662
+Prediction  28   1.0   5.983156e-11
+Prediction  29   0.00849036   0.9915097
+Prediction  30   0.0029062375   0.9970938
+Prediction  31   0.0011242084   0.9988758
+Predictions for Test Dataset:
+ [0 1 0 0 1 1 0 0 0 0 1 1 0 1 0 1 0 0 0 0 0 1 1 1 1 1 1 1 0 1 1 1]
+Labels:
+ [0 1 0 0 1 1 0 0 0 0 1 1 0 1 0 1 0 0 0 0 0 1 1 1 1 1 1 1 0 1 1 1]
+Percent Correct:  100.0 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 2
+steps per epoch = default
+validation steps = default
+without 'imagenet'
+
+   base_model_VGG16 = tf.keras.applications.VGG16(
+        include_top=False,
+        weights=None,
+        pooling='avg'
+    )
+
+
+Model: "functional_9"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+input_10 (InputLayer)        [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf_op_layer_strided_slice_4  [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+tf_op_layer_BiasAdd_4 (Tenso [(None, 300, 300, 3)]     0         
+_________________________________________________________________
+vgg16 (Functional)           (None, 512)               14714688  
+_________________________________________________________________
+dropout_6 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+FC1 (Dense)                  (None, 4096)              2101248   
+_________________________________________________________________
+dropout_7 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+Predictions (Dense)          (None, 2)                 8194      
+=================================================================
+Total params: 16,824,130
+Trainable params: 2,109,442
+Non-trainable params: 14,714,688
+_________________________________________________________________
+None
+Epoch 1/2
+99/99 [==============================] - 2904s 29s/step - loss: 0.6813 - accuracy: 0.5518 - val_loss: 0.7246 - val_accuracy: 0.4866
+Epoch 2/2
+99/99 [==============================] - 2899s 29s/step - loss: 0.6595 - accuracy: 0.6082 - val_loss: 0.7830 - val_accuracy: 0.5045
+
+Predictions for Test Dataset:
+ [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+Labels:
+ [0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 0 0]
+Percent Correct:  43.75 %
