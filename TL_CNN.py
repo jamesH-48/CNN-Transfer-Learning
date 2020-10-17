@@ -149,6 +149,8 @@ def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
     x = preprocess_input(inputs)
     x = base_model_VGG16(x, training=False)
     x = tf.keras.layers.Dropout(0.2)(x)
+    x = Dense(4096, activation ='relu', name = 'FC1')(x)
+    x = tf.keras.layers.Dropout(0.2)(x)
     x = tf.keras.layers.Dense(2, activation='softmax', name='Predictions')(x)
 
     model = tf.keras.Model(inputs=inputs, outputs=x)
@@ -159,15 +161,15 @@ def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
 
     print(model.summary())
 
-    initial_epochs = 1
+    initial_epochs = 3
     #loss0, accuracy0 = model.evaluate(validation_dataset)
     #print("initial loss: {:.2f}".format(loss0))
     #print("initial accuracy: {:.2f}".format(accuracy0))
 
     history = model.fit(train_dataset,
                         epochs=initial_epochs,
-                        steps_per_epoch = 1,
-                        validation_steps = 1,
+                        steps_per_epoch = 8,
+                        validation_steps = 7,
                         validation_data=validation_dataset)
 
     # data results for plotting
