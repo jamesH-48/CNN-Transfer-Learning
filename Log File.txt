@@ -511,3 +511,22 @@ Predictions for Test Dataset:
 Labels:
  [0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 0 0]
 Percent Correct:  43.75 %
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+epochs = 3
+steps per epoch = 8
+validation steps = 7
+weights = 'imagenet'
+with the Dense layer
+
+Epoch 1/3
+8/8 [==============================] - 396s 50s/step - loss: 0.2736 - accuracy: 0.8594 - val_loss: 0.0348 - val_accuracy: 0.9911
+Epoch 2/3
+8/8 [==============================] - 398s 50s/step - loss: 0.0303 - accuracy: 0.9922 - val_loss: 0.0074 - val_accuracy: 0.9955
+Epoch 3/3
+8/8 [==============================] - 397s 50s/step - loss: 0.0054 - accuracy: 1.0000 - val_loss: 0.0055 - val_accuracy: 1.0000
+
+Predictions for Test Dataset:
+ [0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 1 1 1 0 1 1]
+Labels:
+ [0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 1 1 1 0 1 1]
+Percent Correct:  100.0 %
