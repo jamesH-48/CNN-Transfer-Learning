@@ -28,3 +28,5 @@ def model(train_dataset, validation_dataset, test_dataset, labels_of_classes):
 ~ Graphs and prints out the results (as well as test dataset results)
 ~ You can also print the initial model.evaluation if needed but it must be uncommented out (this was done to save time)
 ~ THE MAJOR PARAMTER CHANGES ARE HERE AND ARE SIMILAR TO THE LOG
+------------------------------------------------------------------------------------------------------------------------------------
+More assumptions on the meaning of the data is explained in the report that coincides with this log file.
